@@ -8,7 +8,9 @@ type FindSantaRow<TForest extends Array<any>, Acc extends Array<any> = []> =
 	  : never
 
 type FindSanta<TForest extends Array<Array<any>>> = {
-	[K in keyof TForest]: FindSantaRow<TForest[K]> extends never
-	  ? never
-		: [ParseInt<`${K}`>, FindSantaRow<TForest[K]>]
+	[K in keyof TForest]: FindSantaRow<TForest[K]> extends infer Result
+	  ? Result extends never
+	    ? never
+		  : [ParseInt<`${K}`>, Result]
+		: never
 }[number]
